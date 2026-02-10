@@ -6,7 +6,7 @@ import matchesService from "../services/matches.service.js";
 const matchRouter = Router();
 
 matchRouter.get('/',async(req,res)=>{
-    const parsed = listMatchesQuerySchema.safeParse(req.body);
+    const parsed = listMatchesQuerySchema.safeParse(req.query);
     if (!parsed.success) {
         return res.status(400).json({
         error: "Invalid query.",
@@ -14,15 +14,13 @@ matchRouter.get('/',async(req,res)=>{
         });
     }
     try {
-     const limit = req.query.limit??20;
-     const offset = req.query.offset??0;
-
-     const data = await matchesService.getMatches({limit,offset});
+     const { limit = 20, offset = 0 } = parsed.data;
+     const data = await matchesService.getMatches({ limit, offset });
      res.status(200).json(data);
   } catch (e) {
+    console.error("Failed to get matches:", e);
     res.status(500).json({
       error: "Failed to get matches.",
-      details: e.message,
     });
   }
 })

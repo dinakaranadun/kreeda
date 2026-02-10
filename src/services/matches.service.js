@@ -15,7 +15,10 @@ const matchesService = {
 
   async create(data, locals) {
     const { startTime, endTime, homeScore, awayScore } = data;
-
+    const status = getMatchStatus(startTime, endTime);
+    if (!status) {
+      throw new Error("Unable to determine match status from provided times");
+    }
     const [event] = await db
       .insert(matches)
       .values({
@@ -24,7 +27,7 @@ const matchesService = {
         endTime: new Date(endTime),
         homeScore: homeScore ?? 0,
         awayScore: awayScore ?? 0,
-        status: getMatchStatus(startTime, endTime),
+        status,
       })
       .returning();
 

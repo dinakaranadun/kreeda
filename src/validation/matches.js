@@ -8,6 +8,7 @@ export const MATCH_STATUS = {
 
 export const listMatchesQuerySchema = z.object({
   limit: z.coerce.number().int().positive().max(100).optional(),
+  offset: z.coerce.number().int().nonnegative().optional(),
 });
 
 export const matchIdParamSchema = z.object({
@@ -27,7 +28,7 @@ export const createMatchSchema = z.object({
   const end = new Date(data.endTime);
   if (end <= start) {
     ctx.addIssue({
-      code: z.ZodIssueCode.custom,
+      code: "custom",
       message: "endTime must be chronologically after startTime",
       path: ["endTime"],
     });
