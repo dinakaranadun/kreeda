@@ -36,10 +36,12 @@ matchRouter.post("/", async (req, res) => {
   }
 
   try {
+
     const event = await matchesService.create(
       parsed.data,
       req.app.locals
     );
+
 
     res.status(201).json({ data: event });
   } catch (e) {
