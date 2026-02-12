@@ -2,6 +2,7 @@ import express from 'express'
 import matchRouter from './src/routes/matchesRouter.js';
 import { attachWebSocketServer } from './src/ws/server.js';
 import http from 'http';
+import { arcjetMiddleware } from './src/arcjet.js';
 
 
 const app = express();
@@ -16,6 +17,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
 	res.json({ message: "Hello from the Express server!" });
 });
+
+app.use(arcjetMiddleware)
 app.use('/matches',matchRouter)
 
 const {broadcastMatchCreated} = attachWebSocketServer(server);
