@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
 	res.json({ message: "Hello from the Express server!" });
 });
 
-app.use(arcjetMiddleware)
+app.use(arcjetMiddleware())
 app.use('/matches',matchRouter)
 
 const {broadcastMatchCreated} = attachWebSocketServer(server);

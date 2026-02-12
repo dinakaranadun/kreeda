@@ -29,9 +29,9 @@ export function arcjetMiddleware(){
 
         try {
 
-            const decison = await httpArcjet.protect(req);
+            const decision = await httpArcjet.protect(req);
 
-            if(decison.isDenied){
+            if(decision.isDenied()){
                 if (decision.reason.isRateLimit()) {
                         return res.status(429).json({error:"Too Many Requests"})
                 }
@@ -40,7 +40,7 @@ export function arcjetMiddleware(){
             
         } catch (e) {
             console.error("Arcjet error",e);
-            return res.status(503).json({error:"Service unavailabe"});
+            return res.status(503).json({error:"Service unavailable"});
         }
         next();
     }
