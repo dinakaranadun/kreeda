@@ -3,6 +3,7 @@ import matchRouter from './src/routes/matchesRouter.js';
 import { attachWebSocketServer } from './src/ws/server.js';
 import http from 'http';
 import { arcjetMiddleware } from './src/arcjet.js';
+import commentaryRouter from './src/routes/commentaryRoute.js';
 
 
 const app = express();
@@ -18,11 +19,13 @@ app.get("/", (req, res) => {
 	res.json({ message: "Hello from the Express server!" });
 });
 
-app.use(arcjetMiddleware())
-app.use('/matches',matchRouter)
+app.use(arcjetMiddleware());
+app.use('/matches',matchRouter);
+app.use('/matches/:id/commentary',commentaryRouter);
 
-const {broadcastMatchCreated} = attachWebSocketServer(server);
+const {broadcastMatchCreated,broadcastCommentary} = attachWebSocketServer(server);
 app.locals.broadcastMatchCreated = broadcastMatchCreated;
+app.locals.broadcastCommentary = broadcastCommentary;
 
 
 server.listen(PORT,HOST, () => {
