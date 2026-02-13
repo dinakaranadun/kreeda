@@ -3,7 +3,7 @@ import matchRouter from './src/routes/matchesRouter.js';
 import { attachWebSocketServer } from './src/ws/server.js';
 import http from 'http';
 import { arcjetMiddleware } from './src/arcjet.js';
-import commentaryRouter from './src/routes/commentryRoute.js';
+import commentaryRouter from './src/routes/commentaryRoute.js';
 
 
 const app = express();

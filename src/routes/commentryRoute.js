@@ -5,9 +5,9 @@ import commentaryService from "../services/commentry.service.js";
 
 
 
-const commentryRouter = Router({ mergeParams: true });
+const commentaryRouter = Router({ mergeParams: true });
 
-commentryRouter.post('/', async (req, res) => {
+commentaryRouter.post('/', async (req, res) => {
   const paramResult = matchIdParamSchema.safeParse(req.params);
   
   if (!paramResult.success) {
@@ -32,4 +32,4 @@ commentryRouter.post('/', async (req, res) => {
   }
 });
 
-export default commentryRouter;
+export default commentaryRouter;

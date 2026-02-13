@@ -120,7 +120,8 @@ function attachWebSocketServer(server){
             handleMessage(socket,data)
         });
 
-        socket.on('error',()=>{
+        socket.on('error',(err)=>{
+            console.error('WebSocket error', err);
             socket.terminate();
         });
 
@@ -128,7 +129,6 @@ function attachWebSocketServer(server){
             cleanupSubscriptions(socket)
         });
 
-        socket.on('error',console.error);
     });
 
     const interval = setInterval(()=>{
