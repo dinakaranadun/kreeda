@@ -17,11 +17,12 @@ function unsubscribe(matchId,socket){
 
     if(!subscribers) return;
 
+    subscribers.delete(socket);
+
     if(subscribers.size === 0){
         matchSubscribers.delete(matchId)
     }
     
-    subscribers.delete(socket);
 }
 
 function cleanupSubscriptions(socket){
@@ -39,7 +40,11 @@ function broadcastToMatch(matchId,payload){
 
     for(const client of subscribers){
         if(client.readyState === WebSocket.OPEN){
-            client.send(message)
+            try {
+                client.send(message);
+            } catch (err) {
+                console.error('WebSocket send error:', err);
+            }
         }
     }
 }
@@ -51,6 +56,7 @@ function handleMessage(socket,data){
         message = JSON.parse(data.toString())
     } catch (e) {
         sendJson(socket,{type:'error',message:'Invalid JSON'});
+        return;
     }
 
     if (message?.type === "subscribe" && Number.isInteger(message.matchId)) {

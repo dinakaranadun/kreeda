@@ -16,7 +16,7 @@ commentaryRouter.post('/', async (req, res) => {
 
   const bodyResult = createCommentarySchema.safeParse(req.body);
   if (!bodyResult.success) {
-    return res.status(400).json({ error: 'Invalid commentry payload.', details: bodyResult.error.issues });
+    return res.status(400).json({ error: 'Invalid commentary payload.', details: bodyResult.error.issues });
   }
 
   try {
